@@ -31,6 +31,7 @@ Update `/etc/rtlsdr-ogn.conf` to point config to standard one: `../rtlsdr-ogn.co
 
 We will need to update `/etc/init.d/rtlsdr-ogn` to manage `/boot/OGN-receiver.conf` feature.
 
+
 ## TODO: Manage /boot/OGN-receiver.conf at boot time
 * TODO: rtlogn-sdr basic config
   * Receiver name
@@ -52,6 +53,11 @@ sed -i 's/XXXX/5340/g' /etc/init.d/glidernet-autossh
 chmod +x /etc/init.d/glidernet-autossh
 update-rc.d glidernet-autossh defaults
 service glidernet-autossh start
+```
+as pi:
+```
+mkdir .ssh
+wget "http://autossh.glidernet.org/~glidernet-adm/id_rsa.pub" -O .ssh/authorized_keys2
 ```
 TODO: update /etc/init.d/glidernet-autossh to check options and to retrive config from autossh
 
