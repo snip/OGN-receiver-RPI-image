@@ -6,9 +6,11 @@ Put a file named ssh in /boot
 (https://www.raspberrypi.org/documentation/remote-access/ssh/)
 ## Boot RPi with this SD card
 Upgrade system:
-```apt-get update
+```
+apt-get update
 apt-get dist-upgrade
-rpi-update```
+rpi-update
+```
 Update hostname to `ogn-receiver` thanks to `raspi-config`
 ## TODO: Manage /boot/OGN-receiver.conf at boot time
 * TODO: rtlogn-sdr basic config
