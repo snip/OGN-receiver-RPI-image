@@ -43,6 +43,18 @@ We will need to update `/etc/init.d/rtlsdr-ogn` to manage `/boot/OGN-receiver.co
 ## TODO: Manage rtlsdr-ogn auto upgrade
 Download at each boot.
 ## TODO: Manage optional remote admin
+```
+apt-get install autossh
+ssh-keygen
+cat ~/.ssh/id_rsa.pub 
+wget "http://autossh.glidernet.org/~glidernet-adm/glidernet-autossh" -O /etc/init.d/glidernet-autossh
+sed -i 's/XXXX/5340/g' /etc/init.d/glidernet-autossh
+chmod +x /etc/init.d/glidernet-autossh
+update-rc.d glidernet-autossh defaults
+service glidernet-autossh start
+```
+TODO: update /etc/init.d/glidernet-autossh to check options and to retrive config from autossh
+
 ## TODO: Manage firstboot ?
 * To create hosts ssh keys on rw SD card. Then activate RO?
 * In any cases root's ssh keys need to be the same for autossh remote admin.
