@@ -4,8 +4,9 @@
 ## TODO: Disable swap & add watchdog
 ## TODO: Add nightly reboot
 * how to get local time?
-Maybe with https://ipsidekick.com/json or https://ipapi.co/timezone/ ?
-(Issue with firewall opening or number of requests per day if done centraly)
+
+Maybe with https://ipsidekick.com/json or https://ipapi.co/timezone/ ? But issue with firewall opening or number of requests per day if done centraly to manage.
+
 ## TODO: Disable pi user password login (only ssh key login)
 ## TODO: Manage /boot/OGN-receiver-config.txt at boot time
 * TODO: rtlogn-sdr basic config
