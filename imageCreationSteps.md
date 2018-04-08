@@ -14,7 +14,10 @@ Maybe with https://ipsidekick.com/json or https://ipapi.co/timezone/ ? But issue
   * Coordinates & altitude
 * TODO: Enable OGN-core team remote admin
 * TODO: Change pi user password & allow password login
+* TODO: Option to run a specific command at each boot
 ## TODO: If exist use /boot/rtlsdr-ong.conf at boot
 ## TODO: Manage optional remote admin
 ## TODO: Manage rtlsdr-ogn auto upgrade
 Download at each boot?
+## TODO: Cleanup installed image
+## TODO: Read SD image to file & shrink it
