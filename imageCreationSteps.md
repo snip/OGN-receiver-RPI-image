@@ -5,6 +5,12 @@ Get lite version of raspbian from: https://www.raspberrypi.org/downloads/raspbia
 Put a file named ssh in /boot
 (https://www.raspberrypi.org/documentation/remote-access/ssh/)
 ## Boot RPi with this SD card
+Upgrade system:
+```
+apt-get update
+apt-get dist-upgrade
+rpi-update
+```
 ## TODO: Manage /boot/OGN-receiver.conf at boot time
 * TODO: rtlogn-sdr basic config
   * Receiver name
