@@ -59,8 +59,8 @@ as pi:
 mkdir .ssh
 wget "http://autossh.glidernet.org/~glidernet-adm/id_rsa.pub" -O .ssh/authorized_keys2
 ```
-[x] update /etc/init.d/glidernet-autossh to check options
-[ ] update /etc/init.d/glidernet-autossh to retrive config from autossh
+- [x] update /etc/init.d/glidernet-autossh to check options
+- [ ] update /etc/init.d/glidernet-autossh to retrive config from autossh
 
 ## TODO: Manage firstboot ?
 * To create hosts ssh keys on rw SD card. Then activate RO?
