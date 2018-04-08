@@ -27,6 +27,7 @@ Download at each boot.
 ## TODO: Manage firstboot ?
 * To create hosts ssh keys on rw SD card. Then activate RO?
 * In any cases root's ssh keys need to be the same for autossh remote admin.
+* We need to expendand FS at first boot
 ## TODO: Disable pi user password login (only ssh key login)
 ## TODO: Add nightly reboot
 * how to get local time?
