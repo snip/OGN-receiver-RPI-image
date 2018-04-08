@@ -32,8 +32,8 @@ Update `/etc/rtlsdr-ogn.conf` to point config to standard one: `../rtlsdr-ogn.co
 We will need to update `/etc/init.d/rtlsdr-ogn` to manage `/boot/OGN-receiver.conf` feature.
 
 
-## TODO: Manage /boot/OGN-receiver.conf at boot time
-* TODO: Generate rtlogn-sdr config from OGN-receiver.conf
+## Manage /boot/OGN-receiver.conf at boot time
+- [x] Generate rtlogn-sdr config from OGN-receiver.conf
 - [x] If exist use /boot/rtlsdr-ogn.conf at boot
 - [x] Disable pi user password login (only ssh key login)
 - [x] Change pi user password & allow password login
