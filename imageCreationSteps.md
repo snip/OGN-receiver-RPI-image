@@ -33,14 +33,11 @@ We will need to update `/etc/init.d/rtlsdr-ogn` to manage `/boot/OGN-receiver.co
 
 
 ## TODO: Manage /boot/OGN-receiver.conf at boot time
-* TODO: rtlogn-sdr basic config
-  * Receiver name
-  * Coordinates & altitude
-  * PPM correction (optional)
-* TODO: Enable OGN-core team remote admin (optional)
-* TODO: Change pi user password & allow password login
-* TODO: Option to run a specific command at each boot
-## TODO: If exist use /boot/rtlsdr-ong.conf at boot
+* TODO: Generate rtlogn-sdr config from OGN-receiver.conf
+- [x] If exist use /boot/rtlsdr-ogn.conf at boot
+- [x] Disable pi user password login (only ssh key login)
+- [x] Change pi user password & allow password login
+- [x] Option to run a specific command at each boot
 ## TODO: Manage rtlsdr-ogn auto upgrade
 Download at each boot.
 ## TODO: Manage optional remote admin
@@ -66,7 +63,6 @@ wget "http://autossh.glidernet.org/~glidernet-adm/id_rsa.pub" -O .ssh/authorized
 * To create hosts ssh keys on rw SD card. Then activate RO?
 * In any cases root's ssh keys need to be the same for autossh remote admin.
 * We need to expendand FS at first boot
-## TODO: Disable pi user password login (only ssh key login)
 ## TODO: Add nightly reboot
 * how to get local time?
 
