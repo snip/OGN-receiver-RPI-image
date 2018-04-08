@@ -1,0 +1,25 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          glidernet-autossh
+# Required-Start:    $all
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: OGN receiver admin
+# Description:       OGN receiver - Open Glider Network - http://glidernet.org/
+### END INIT INFO
+
+# chkconfig: 2345 98 2
+# description: autostart autossh
+
+# Loading OGN config
+source /boot/OGN-receiver.conf
+
+if [ "$EnableCoreOGNTeamRemoteAdmin" != "true" ]
+then
+  echo "Remote admin not enabled => Exiting"
+  exit 0;
+fi
+
+sleep 30 # Wait a bit to be sure network is comming up
+autossh -f -R 5340:localhost:22 glidernet-assh@autossh.glidernet.org -N -M 53400 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o "ServerAliveInterval 60" -o "ServerAliveCountMax 3"
