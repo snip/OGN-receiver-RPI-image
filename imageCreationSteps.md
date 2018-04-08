@@ -12,6 +12,14 @@ apt-get dist-upgrade
 rpi-update
 ```
 Update hostname to `ogn-receiver` thanks to `raspi-config`
+## Install standard OGN lib & softs + standard config
+```
+apt-get install rtl-sdr libconfig9 libjpeg8 procserv telnet ntpdate ntp lynx
+?? libconfig-dev fftw3-dev libjpeg-dev
+?? g++ make cmake build-essential 
+```
+* Apply DVB-T blacklist
+
 ## TODO: Manage /boot/OGN-receiver.conf at boot time
 * TODO: rtlogn-sdr basic config
   * Receiver name
@@ -24,6 +32,13 @@ Update hostname to `ogn-receiver` thanks to `raspi-config`
 ## TODO: Manage rtlsdr-ogn auto upgrade
 Download at each boot.
 ## TODO: Manage optional remote admin
+```
+sudo wget http://download.glidernet.org/common/service/rtlsdr-ogn -O /etc/init.d/rtlsdr-ogn
+sudo wget http://download.glidernet.org/common/service/rtlsdr-ogn.conf -O /etc/rtlsdr-ogn.conf
+sudo chmod +x /etc/init.d/rtlsdr-ogn
+sudo update-rc.d rtlsdr-ogn defaults
+```
+Update `/etc/rtlsdr-ogn.conf` to point config to standard one: `../rtlsdr-ogn.conf`
 ## TODO: Manage firstboot ?
 * To create hosts ssh keys on rw SD card. Then activate RO?
 * In any cases root's ssh keys need to be the same for autossh remote admin.
