@@ -15,8 +15,6 @@ Update hostname to `ogn-receiver` thanks to `raspi-config`
 ## Install standard OGN lib & softs + standard config
 ```
 apt-get install rtl-sdr libconfig9 libjpeg8 fftw3-dev procserv telnet ntpdate ntp lynx
-?? libconfig-dev  libjpeg-dev
-?? g++ make cmake build-essential 
 ```
 * Apply DVB-T blacklist
 
