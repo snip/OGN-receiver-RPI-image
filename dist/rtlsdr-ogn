@@ -52,6 +52,14 @@ launch () {
     shift
   fi
   temp=$(mktemp -p $(dirname $shells)) || fail "can't create temporary file"
+
+  # OGN autoconfig
+  /root/OGN-receiver-config-manager.bash
+
+  # Wait for time to be sync before launching
+  #while true; do /usr/sbin/ntp-wait -v;  if [ $? -eq 0 ]; then break; fi; sleep 2; done
+  while true; do service ntp stop; sleep 1; service ntp start; /usr/sbin/ntp-wait -v -n 5;  if [ $? -eq 0 ]; then break; fi; sleep 2; done
+
   while read PORT USER DIR COMMAND
   do
     # check for empty lines and comments
@@ -83,12 +91,6 @@ launch () {
       LOG=/dev/null
     fi
 
-    # OGN autoconfig
-    /root/OGN-receiver-config-manager.bash >/tmp/OGN-receiver-config-manager.out
-
-    # Wait for time to be sync before launching
-    #while true; do /usr/sbin/ntp-wait -v;  if [ $? -eq 0 ]; then break; fi; sleep 2; done
-    while true; do service ntp stop; sleep 1; service ntp start; /usr/sbin/ntp-wait -v -n 5;  if [ $? -eq 0 ]; then break; fi; sleep 2; done
 
     # start shellbox as other user
     echo -n Starting: $PORT $USER $DIR $COMMAND

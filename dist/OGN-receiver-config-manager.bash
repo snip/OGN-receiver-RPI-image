@@ -65,6 +65,7 @@ fi
 
 ### Manage pi user
 
+echo "Manage pi user"
 if [ -z "$piUserPassword" ]
 then
   echo "No password specified for \"pi\" user => Disabling usage of password for user \"pi\" (ssh key authentication is still possible)."
@@ -76,14 +77,29 @@ fi
 
 ### Upgrade rtlsdr-ogn
 
-# TODO: Manage error if wget is not working as expected. (no internet connectivity for example)
+OGNBINARYURL="http://download.glidernet.org/rpi-gpu/rtlsdr-ogn-bin-RPI-GPU-latest.tgz"
+
+echo "Checking internet connection."
+while [ 0 ] # Loop forever until we have a working internet connection
+do
+  /usr/bin/wget --spider --quiet $OGNBINARYURL
+  if [ "$?" -eq 0 ]
+  then
+    break
+  fi
+  sleep 1
+  echo "."
+done
+echo "Connected."
+
+echo "Downloading and installing $OGNBINARYURL"
 cd /home/pi
-/usr/bin/wget http://download.glidernet.org/rpi-gpu/rtlsdr-ogn-bin-RPI-GPU-latest.tgz -O - | tar xzvf -
+/usr/bin/wget $OGNBINARYURL --quiet -O - | tar xzvf -
 cd rtlsdr-ogn
-sudo chown root gsm_scan
-sudo chmod a+s  gsm_scan
-sudo chown root ogn-rf
-sudo chmod a+s  ogn-rf
+chown root gsm_scan
+chmod a+s  gsm_scan
+chown root ogn-rf
+chmod a+s  ogn-rf
 
 ### Run a specific command
 
