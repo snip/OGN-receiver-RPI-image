@@ -64,7 +64,7 @@ wget "http://autossh.glidernet.org/~glidernet-adm/id_rsa.pub" -O .ssh/authorized
 ## TODO: Manage firstboot ?
 * To create hosts ssh keys on rw SD card. Then activate RO?
 * In any cases root's ssh keys need to be the same for autossh remote admin.
-* We need to expendand FS at first boot
+* We need to expend FS at first boot
 ## TODO: Add nightly reboot
 * how to get local time?
 
