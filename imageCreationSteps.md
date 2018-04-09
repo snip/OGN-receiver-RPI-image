@@ -58,6 +58,8 @@ wget "http://autossh.glidernet.org/~glidernet-adm/id_rsa.pub" -O .ssh/authorized
 ```
 - [x] update /etc/init.d/glidernet-autossh to check options
 - [ ] update /etc/init.d/glidernet-autossh to retrive config from autossh
+  - [ ] Do not start glidernet-autossh by systemd but via crontab every 10min
+  - [ ] In the startup of glidernet-autossh do http request to get port & if we need to use this feature
 
 ## TODO: Manage firstboot ?
 * To create hosts ssh keys on rw SD card. Then activate RO?
