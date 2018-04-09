@@ -67,12 +67,23 @@ fi
 
 if [ -z "$piUserPassword" ]
 then
-  echo "No password specified for \"pi\" user => Disabling usage of password for user \"pi\"."
+  echo "No password specified for \"pi\" user => Disabling usage of password for user \"pi\" (ssh key authentication is still possible)."
   passwd -l pi
 else
   echo "Password specified for \"pi\" user => Changing its password."
   echo "pi:$piUserPassword" | chpasswd
 fi
+
+### Upgrade rtlsdr-ogn
+
+# TODO: Manage error if wget is not working as expected. (no internet connectivity for example)
+cd /home/pi
+/usr/bin/wget http://download.glidernet.org/rpi-gpu/rtlsdr-ogn-bin-RPI-GPU-latest.tgz -O - | tar xzvf -
+cd rtlsdr-ogn
+sudo chown root gsm_scan
+sudo chmod a+s  gsm_scan
+sudo chown root ogn-rf
+sudo chmod a+s  ogn-rf
 
 ### Run a specific command
 
