@@ -14,8 +14,8 @@ rpi-update
 Update hostname to `ogn-receiver` thanks to `raspi-config`
 ## Install standard OGN lib & softs + standard config
 ```
-apt-get install rtl-sdr libconfig9 libjpeg8 procserv telnet ntpdate ntp lynx
-?? libconfig-dev fftw3-dev libjpeg-dev
+apt-get install rtl-sdr libconfig9 libjpeg8 fftw3-dev procserv telnet ntpdate ntp lynx
+?? libconfig-dev  libjpeg-dev
 ?? g++ make cmake build-essential 
 ```
 * Apply DVB-T blacklist
@@ -38,8 +38,9 @@ We will need to update `/etc/init.d/rtlsdr-ogn` to manage `/boot/OGN-receiver.co
 - [x] Disable pi user password login (only ssh key login)
 - [x] Change pi user password & allow password login
 - [x] Option to run a specific command at each boot
-## TODO: Manage rtlsdr-ogn auto upgrade
-Download at each boot.
+## Manage rtlsdr-ogn auto upgrade
+Download at each rtlsdr-ogn startup.
+
 ## TODO: Manage optional remote admin
 ```
 apt-get install autossh
