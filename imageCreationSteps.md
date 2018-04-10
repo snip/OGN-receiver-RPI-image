@@ -72,3 +72,4 @@ Maybe with https://ipsidekick.com/json or https://ipapi.co/timezone/ ? But issue
 ## TODO: Cleanup installed image
 ## TODO: Read SD image to file & shrink it
 ## TODO: Manage self-update
+## TODO: Manage not blocking /etc/init.d/rtlsdr-ogn
