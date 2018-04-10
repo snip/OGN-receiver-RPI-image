@@ -46,7 +46,7 @@ ssh-keygen
 cat ~/.ssh/id_rsa.pub 
 wget "https://raw.githubusercontent.com/snip/OGN-receiver-RPI-image/master/dist/glidernet-autossh" -O /root/glidernet-autossh
 chmod +x /root/glidernet-autossh
-crontab -l | { cat; echo "0 3 * * * */10 * * * * /root/glidernet-autossh 2>/tmp/glidernet-autossh.log"; } | crontab -
+crontab -l | { cat; echo "*/10 * * * * /root/glidernet-autossh 2>/tmp/glidernet-autossh.log"; } | crontab -
 ```
 
 as pi:
@@ -65,7 +65,7 @@ wget "http://autossh.glidernet.org/~glidernet-adm/id_rsa.pub" -O .ssh/authorized
 * We need to expend FS at first boot
 ## TODO: Add nightly reboot
 ```
-crontab -l | { cat; echo "0 3 * * * /sbin/reboot"; } | crontab -
+crontab -l | { cat; echo "0 5 * * * /sbin/reboot"; } | crontab -
 ```
 * how to get local time?
 
