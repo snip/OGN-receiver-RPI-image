@@ -45,6 +45,7 @@ apt-get install autossh
 ssh-keygen
 cat ~/.ssh/id_rsa.pub 
 wget "https://raw.githubusercontent.com/snip/OGN-receiver-RPI-image/master/dist/glidernet-autossh" -O /root/glidernet-autossh
+chmod +x /root/glidernet-autossh
 crontab -l | { cat; echo "0 3 * * * */10 * * * * /root/glidernet-autossh 2>/tmp/glidernet-autossh.log"; } | crontab -
 ```
 
