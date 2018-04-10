@@ -39,37 +39,39 @@ We will need to update `/etc/init.d/rtlsdr-ogn` to manage `/boot/OGN-receiver.co
 ## Manage rtlsdr-ogn auto upgrade
 Download at each rtlsdr-ogn startup.
 
-## TODO: Manage optional remote admin
+## Manage optional remote admin
 ```
 apt-get install autossh
 ssh-keygen
 cat ~/.ssh/id_rsa.pub 
-wget "http://autossh.glidernet.org/~glidernet-adm/glidernet-autossh" -O /etc/init.d/glidernet-autossh
-sed -i 's/XXXX/5340/g' /etc/init.d/glidernet-autossh
-chmod +x /etc/init.d/glidernet-autossh
-update-rc.d glidernet-autossh defaults
-service glidernet-autossh start
+wget "https://raw.githubusercontent.com/snip/OGN-receiver-RPI-image/master/dist/glidernet-autossh" -O /root/glidernet-autossh
+crontab -l | { cat; echo "0 3 * * * */10 * * * * /root/glidernet-autossh 2>/tmp/glidernet-autossh.log"; } | crontab -
 ```
+
 as pi:
 ```
 mkdir .ssh
 wget "http://autossh.glidernet.org/~glidernet-adm/id_rsa.pub" -O .ssh/authorized_keys2
 ```
-- [x] update /etc/init.d/glidernet-autossh to check options
-- [ ] update /etc/init.d/glidernet-autossh to retrive config from autossh
-  - [ ] Do not start glidernet-autossh by systemd but via crontab every 10min
-  - [ ] In the startup of glidernet-autossh do http request to get port & if we need to use this feature
+- [x] update /root/glidernet-autossh to check options
+- [x] update /root/glidernet-autossh to retrive config from autossh
+  - [x] Do not start glidernet-autossh by systemd but via crontab every 10min
+  - [x] In the startup of glidernet-autossh do http request to get port & if we need to use this feature
 
 ## TODO: Manage firstboot ?
 * To create hosts ssh keys on rw SD card. Then activate RO?
 * In any cases root's ssh keys need to be the same for autossh remote admin.
 * We need to expend FS at first boot
 ## TODO: Add nightly reboot
+```
+crontab -l | { cat; echo "0 3 * * * /sbin/reboot"; } | crontab -
+```
 * how to get local time?
 
 Maybe with https://ipsidekick.com/json or https://ipapi.co/timezone/ ? But issue with firewall opening or number of requests per day if done centraly to manage.
 ## TODO: Add RO FS
-## TODO: Disable swap & add watchdog
+## TODO: Disable swap
+## TODO: Add watchdog
 ## TODO: Cleanup installed image
 ## TODO: Read SD image to file & shrink it
-## TODO: Manage auto-update
+## TODO: Manage self-update
