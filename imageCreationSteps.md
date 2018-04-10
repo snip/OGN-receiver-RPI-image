@@ -20,10 +20,10 @@ apt-get install rtl-sdr libconfig9 libjpeg8 fftw3-dev procserv telnet ntpdate nt
 
 * Install service
 ```
-sudo wget http://download.glidernet.org/common/service/rtlsdr-ogn -O /etc/init.d/rtlsdr-ogn
-sudo wget http://download.glidernet.org/common/service/rtlsdr-ogn.conf -O /etc/rtlsdr-ogn.conf
-sudo chmod +x /etc/init.d/rtlsdr-ogn
-sudo update-rc.d rtlsdr-ogn defaults
+wget http://download.glidernet.org/common/service/rtlsdr-ogn -O /etc/init.d/rtlsdr-ogn
+wget http://download.glidernet.org/common/service/rtlsdr-ogn.conf -O /etc/rtlsdr-ogn.conf
+chmod +x /etc/init.d/rtlsdr-ogn
+update-rc.d rtlsdr-ogn defaults
 ```
 Update `/etc/rtlsdr-ogn.conf` to point config to standard one: `../rtlsdr-ogn.conf`
 
