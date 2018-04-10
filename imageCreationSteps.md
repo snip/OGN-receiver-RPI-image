@@ -20,15 +20,11 @@ apt-get install rtl-sdr libconfig9 libjpeg8 fftw3-dev procserv telnet ntpdate nt
 
 * Install service
 ```
-wget http://download.glidernet.org/common/service/rtlsdr-ogn -O /etc/init.d/rtlsdr-ogn
-wget http://download.glidernet.org/common/service/rtlsdr-ogn.conf -O /etc/rtlsdr-ogn.conf
+wget https://raw.githubusercontent.com/snip/OGN-receiver-RPI-image/master/dist/rtlsdr-ogn -O /etc/init.d/rtlsdr-ogn
+wget https://raw.githubusercontent.com/snip/OGN-receiver-RPI-image/master/dist/rtlsdr-ogn-service.conf -O /etc/rtlsdr-ogn-service.conf
 chmod +x /etc/init.d/rtlsdr-ogn
 update-rc.d rtlsdr-ogn defaults
 ```
-Update `/etc/rtlsdr-ogn.conf` to point config to standard one: `../rtlsdr-ogn.conf`
-
-We will need to update `/etc/init.d/rtlsdr-ogn` to manage `/boot/OGN-receiver.conf` feature.
-
 
 ## Manage /boot/OGN-receiver.conf at boot time
 - [x] Generate rtlogn-sdr config from OGN-receiver.conf
