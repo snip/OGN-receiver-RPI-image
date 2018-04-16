@@ -27,6 +27,8 @@ logdir=/var/log/$prog
 shells=/var/run/$prog
 chroot=/mnt/ramdisk
 
+( # Not blocking
+
 if [ -d $chroot ]
 then
   CHROOT="chroot $chroot"
@@ -54,7 +56,7 @@ launch () {
   temp=$(mktemp -p $(dirname $shells)) || fail "can't create temporary file"
 
   # OGN autoconfig
-  /root/OGN-receiver-config-manager
+  /root/OGN-receiver-config-manager.bash
 
   # Wait for time to be sync before launching
   #while true; do /usr/sbin/ntp-wait -v;  if [ $? -eq 0 ]; then break; fi; sleep 2; done
@@ -250,4 +252,4 @@ case "$CMD" in
   (status)        status $*;;
   (*)             echo "Usage: $0 {start [ports]|stop [ports]|restart [ports]|reload|status [-log] [ports]}" ;;
 esac
-
+) &
