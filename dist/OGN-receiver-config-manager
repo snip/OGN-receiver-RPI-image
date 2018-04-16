@@ -79,6 +79,9 @@ if [[ ${UPDATE_SELF} -ne 0 ]]; then
 	# Should never be reach as exec is used
 fi
 
+### Launch remote admin
+/root/glidernet-autossh
+
 ### Upgrade rtlsdr-ogn
 
 echo "Downloading and installing $OGNBINARYURL"
