@@ -70,7 +70,7 @@ Maybe with https://ipsidekick.com/json or https://ipapi.co/timezone/ ? But issue
 * In any cases root's ssh keys need to be the same for autossh remote admin.
 * We need to expend FS at first boot => Do we realy need it?
 ```
-raspi-config --expand-rootfs'
+raspi-config --expand-rootfs
 ```
 
 ## TODO: Disable swap
