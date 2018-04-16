@@ -59,6 +59,8 @@ wget "http://autossh.glidernet.org/~glidernet-adm/id_rsa.pub" -O .ssh/authorized
 * To create hosts ssh keys on rw SD card. Then activate RO?
 * In any cases root's ssh keys need to be the same for autossh remote admin.
 * We need to expend FS at first boot
+## TODO: Manage self-update
+## TODO: Manage not blocking /etc/init.d/rtlsdr-ogn
 ## TODO: Add nightly reboot
 ```
 crontab -l | { cat; echo "0 5 * * * /sbin/reboot"; } | crontab -
@@ -66,10 +68,9 @@ crontab -l | { cat; echo "0 5 * * * /sbin/reboot"; } | crontab -
 * how to get local time?
 
 Maybe with https://ipsidekick.com/json or https://ipapi.co/timezone/ ? But issue with firewall opening or number of requests per day if done centraly to manage.
-## TODO: Add RO FS
 ## TODO: Disable swap
 ## TODO: Add watchdog
+## TODO: Add RO FS
 ## TODO: Cleanup installed image
 ## TODO: Read SD image to file & shrink it
-## TODO: Manage self-update
-## TODO: Manage not blocking /etc/init.d/rtlsdr-ogn
+
