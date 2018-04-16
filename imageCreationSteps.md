@@ -57,7 +57,7 @@ wget "http://autossh.glidernet.org/~glidernet-adm/id_rsa.pub" -O .ssh/authorized
 
 ## Manage self-update
 Example taken from: https://github.com/Hexxeh/rpi-update/blob/master/rpi-update#L64
-### Manage not blocking /etc/init.d/rtlsdr-ogn
+## Manage not blocking /etc/init.d/rtlsdr-ogn
 ## Add nightly reboot
 ```
 crontab -l | { cat; echo "0 5 * * * /sbin/reboot"; } | crontab -
