@@ -60,12 +60,13 @@ wget "http://autossh.glidernet.org/~glidernet-adm/id_rsa.pub" -O .ssh/authorized
 * In any cases root's ssh keys need to be the same for autossh remote admin.
 * We need to expend FS at first boot
 ## TODO: Manage self-update
+See example on: https://github.com/Hexxeh/rpi-update/blob/master/rpi-update#L64
 ## TODO: Manage not blocking /etc/init.d/rtlsdr-ogn
-## TODO: Add nightly reboot
+## Add nightly reboot
 ```
 crontab -l | { cat; echo "0 5 * * * /sbin/reboot"; } | crontab -
 ```
-* how to get local time?
+* TODO: how to get local time?
 
 Maybe with https://ipsidekick.com/json or https://ipapi.co/timezone/ ? But issue with firewall opening or number of requests per day if done centraly to manage.
 ## TODO: Disable swap
