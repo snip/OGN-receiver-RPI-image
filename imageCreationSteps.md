@@ -74,10 +74,11 @@ raspi-config --expand-rootfs
 ```
 ## Add watchdog
 ```
-sudo modprobe bcm2835_wdt
-echo "bcm2835_wdt" | sudo tee -a /etc/modules
-sudo apt-get install watchdog
-sudo sh -c "echo 'watchdog-timeout = 15 # Required to prevent cannot set timeout 60 issue on RPi' >> /etc/watchdog.conf"
+modprobe bcm2835_wdt
+echo "bcm2835_wdt" >> /etc/modules
+echo 'watchdog-timeout = 15 # Required to prevent cannot set timeout 60 issue on RPi' >> /etc/watchdog.conf
+echo 'watchdog-device = /dev/watchdog' >> /etc/watchdog.conf
+apt-get install watchdog
 service watchdog start
 ```
 ## Disable swap
