@@ -74,13 +74,11 @@ raspi-config --expand-rootfs
 ```
 ## Add watchdog
 ```
-modprobe bcm2835_wdt
-echo "bcm2835_wdt" >> /etc/modules
-echo 'watchdog-timeout = 15 # Required to prevent cannot set timeout 60 issue on RPi' >> /etc/watchdog.conf
-echo 'watchdog-device = /dev/watchdog' >> /etc/watchdog.conf
-apt-get install watchdog
-service watchdog start
+echo "RuntimeWatchdogSec=10s" >> /etc/systemd/system.conf
+echo "ShutdownWatchdogSec=10min" >> /etc/systemd/system.conf
 ```
+See: https://www.raspberrypi.org/forums/viewtopic.php?f=29&t=147501&start=25#p1254069
+And to check if it working well, to generate a kernel panic: `echo c > /proc/sysrq-trigger`
 ## Disable swap
 ```
 sudo systemctl stop dphys-swapfile
