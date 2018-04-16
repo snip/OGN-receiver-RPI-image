@@ -72,9 +72,20 @@ Maybe with https://ipsidekick.com/json or https://ipapi.co/timezone/ ? But issue
 ```
 raspi-config --expand-rootfs
 ```
-
-## TODO: Disable swap
-## TODO: Add watchdog
+## Add watchdog
+```
+sudo modprobe bcm2835_wdt
+echo "bcm2835_wdt" | sudo tee -a /etc/modules
+sudo apt-get install watchdog
+sudo sh -c "echo 'watchdog-timeout = 15 # Required to prevent cannot set timeout 60 issue on RPi' >> /etc/watchdog.conf"
+service watchdog start
+```
+## Disable swap
+```
+sudo systemctl stop dphys-swapfile
+sudo systemctl disable dphys-swapfile
+sudo apt-get purge dphys-swapfile
+```
 ## TODO: Add RO FS
 ## TODO: Cleanup installed image
 ## TODO: Read SD image to file & shrink it
