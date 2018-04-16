@@ -65,10 +65,10 @@ crontab -l | { cat; echo "0 5 * * * /sbin/reboot"; } | crontab -
 * TODO: how to get local time?
 
 Maybe with https://ipsidekick.com/json or https://ipapi.co/timezone/ ? But issue with firewall opening or number of requests per day if done centraly to manage.
-## TODO: Manage firstboot ? => Do we realy need it?
+## Manage firstboot ? => Do we realy need it?
 * To create hosts ssh keys on rw SD card. Then activate RO?
 * In any cases root's ssh keys need to be the same for autossh remote admin.
-* We need to expend FS at first boot => Do we realy need it?
+* We need to expend FS at first boot => Do we realy need it? Don't think so.
 ```
 raspi-config --expand-rootfs
 ```
