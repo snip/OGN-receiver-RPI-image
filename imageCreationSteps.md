@@ -27,6 +27,7 @@ update-rc.d rtlsdr-ogn defaults
 ```
 
 ## Manage /boot/OGN-receiver.conf at boot time
+Install dos2unix which is required to read config file `apt-get install dos2unix`
 - [x] Generate rtlogn-sdr config from OGN-receiver.conf
 - [x] If exist use /boot/rtlsdr-ogn.conf at boot
 - [x] Disable pi user password login (only ssh key login)
