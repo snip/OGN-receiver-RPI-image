@@ -92,7 +92,16 @@ cd /sbin
 wget https://github.com/ppisa/rpi-utils/raw/master/init-overlay/sbin/init-overlay
 wget https://github.com/ppisa/rpi-utils/raw/master/init-overlay/sbin/overlayctl
 chmod +x init-overlay overlayctl
-overlayctl install 
+overlayctl install
+cat >> /etc/profile <<EOF
+echo "----------------------"
+source /dev/stdin < <(dos2unix < /boot/OGN-receiver.conf)
+echo "OGN receiver $ReceiverName"
+echo "Read-only file system (overlay) status:"
+/sbin/overlayctl status
+echo "To manage it (as root): overlayctl disable | overlayctl enable | overlayctl status"
+echo "----------------------"
+EOF
 reboot
 ```
 (from: http://wiki.glidernet.org/wiki:prevent-sd-card-corruption)
