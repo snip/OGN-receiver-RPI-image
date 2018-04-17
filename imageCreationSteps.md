@@ -85,7 +85,7 @@ sudo systemctl stop dphys-swapfile
 sudo systemctl disable dphys-swapfile
 sudo apt-get purge dphys-swapfile
 ```
-## TODO: Add RO FS
+## Add RO FS
 ```
 cd /sbin
 wget https://github.com/ppisa/rpi-utils/raw/master/init-overlay/sbin/init-overlay
