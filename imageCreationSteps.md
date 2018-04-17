@@ -86,5 +86,15 @@ sudo systemctl disable dphys-swapfile
 sudo apt-get purge dphys-swapfile
 ```
 ## TODO: Add RO FS
+```
+cd /sbin
+wget https://github.com/ppisa/rpi-utils/raw/master/init-overlay/sbin/init-overlay
+wget https://github.com/ppisa/rpi-utils/raw/master/init-overlay/sbin/overlayctl
+chmod +x init-overlay overlayctl
+mkdir /overlay 
+overlayctl install 
+reboot
+```
+(from: http://wiki.glidernet.org/wiki:prevent-sd-card-corruption)
 ## TODO: Cleanup installed image
 ## TODO: Read SD image to file & shrink it
