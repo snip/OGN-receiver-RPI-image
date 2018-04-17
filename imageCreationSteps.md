@@ -96,7 +96,7 @@ overlayctl install
 cat >> /etc/profile <<EOF
 echo "----------------------"
 source /dev/stdin < <(dos2unix < /boot/OGN-receiver.conf)
-echo "OGN receiver $ReceiverName"
+echo "OGN receiver \$ReceiverName"
 echo "Read-only file system (overlay) status:"
 /sbin/overlayctl status
 echo "To manage it (as root): overlayctl disable | overlayctl enable | overlayctl status"
