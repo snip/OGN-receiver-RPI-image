@@ -4,7 +4,7 @@ UPDATE_SELF=${UPDATE_SELF:-1}
 UPDATE_URI="https://raw.githubusercontent.com/snip/OGN-receiver-RPI-image/master/dist/OGN-receiver-config-manager"
 WORK_PATH="/root"
 
-# Init some variables to default values
+### Init some variables to default values
 FreqCorr="60"
 GSMCenterFreq="950"
 GSMGain="25"
@@ -39,8 +39,9 @@ EOF
 	exec /bin/bash "${WORK_PATH}/.updateScript.sh"
 }
 
-# Load config from /boot
-source /boot/OGN-receiver.conf
+### Load config from /boot
+# Need this hack to allow sourcing from a file in dos format
+source /dev/stdin < <(dos2unix < /boot/OGN-receiver.conf)
 
 ### Manage pi user
 

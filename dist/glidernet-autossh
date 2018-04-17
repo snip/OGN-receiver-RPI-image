@@ -9,8 +9,9 @@ then
 fi
 
 
-# Loading OGN config
-source /boot/OGN-receiver.conf
+### Loading OGN config
+# Need this hack to allow sourcing from a file in dos format
+source /dev/stdin < <(dos2unix < /boot/OGN-receiver.conf)
 
 if [ "$EnableCoreOGNTeamRemoteAdmin" != "true" ]
 then
@@ -33,7 +34,7 @@ defaultRouteMac=`cat /sys/class/net/$(ip route show default | awk '/default/ {pr
 port=`/usr/bin/wget --quiet "http://autossh.glidernet.org/remoteReceiver?r=$ReceiverName&m=$defaultRouteMac" -O -`
 if [ "$?" -eq 0 ]
 then
- echo "Ok ${port}0" >&2
+ echo "Ok ${port}" >&2
   /usr/bin/autossh -f -R ${port}:localhost:22 glidernet-assh@autossh.glidernet.org -N -M ${port}0 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o "ServerAliveInterval 60" -o "ServerAliveCountMax 3"
   exit 0
 fi
