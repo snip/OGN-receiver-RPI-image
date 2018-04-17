@@ -106,4 +106,12 @@ reboot
 ```
 (from: http://wiki.glidernet.org/wiki:prevent-sd-card-corruption)
 ## TODO: Cleanup installed image
+From: https://github.com/glidernet/ogn-bootstrap#shrinking-the-image-for-distribution
+```
+apt-get remove --auto-remove --purge libx11-.*
+apt-get remove deborphan
+apt-get autoremove
+apt-get autoclean
+apt-get clean
+```
 ## TODO: Read SD image to file & shrink it
