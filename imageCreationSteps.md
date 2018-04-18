@@ -92,7 +92,7 @@ raspi-config --expand-rootfs
 ## Add watchdog
 ```
 echo "RuntimeWatchdogSec=10s" >> /etc/systemd/system.conf
-echo "ShutdownWatchdogSec=10min" >> /etc/systemd/system.conf
+echo "ShutdownWatchdogSec=4min" >> /etc/systemd/system.conf
 ```
 See: https://www.raspberrypi.org/forums/viewtopic.php?f=29&t=147501&start=25#p1254069
 And to check if it working well, to generate a kernel panic: `echo c > /proc/sysrq-trigger`
