@@ -14,15 +14,18 @@ rpi-update
 Update hostname to `ogn-receiver` thanks to `raspi-config`
 ## Install standard OGN lib & softs + standard config
 ```
+apt-get update
 apt-get install rtl-sdr libconfig9 libjpeg8 fftw3-dev procserv telnet ntpdate ntp lynx
 ```
 * Apply DVB-T blacklist
+```
 cat >> /etc/modprobe.d/rtl-glidernet-blacklist.conf <<EOF
 blacklist rtl2832
 blacklist r820t
 blacklist rtl2830
 blacklist dvb_usb_rtl28xxu
 EOF
+```
 
 * Install service
 ```
