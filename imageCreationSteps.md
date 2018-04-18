@@ -113,5 +113,8 @@ apt-get remove deborphan
 apt-get autoremove
 apt-get autoclean
 apt-get clean
+rm -rf /var/log/*
+dd if=/dev/zero of=t.1 bs=1M count=8
+dd if=/dev/zero of=t.2 bs=1M ; sudo rm t.1 t.2
 ```
 ## TODO: Read SD image to file & shrink it
