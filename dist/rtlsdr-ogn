@@ -56,7 +56,7 @@ launch () {
   temp=$(mktemp -p $(dirname $shells)) || fail "can't create temporary file"
 
   # OGN autoconfig
-  /root/OGN-receiver-config-manager.bash
+  /root/OGN-receiver-config-manager
 
   # Wait for time to be sync before launching
   #while true; do /usr/sbin/ntp-wait -v;  if [ $? -eq 0 ]; then break; fi; sleep 2; done
