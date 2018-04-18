@@ -33,6 +33,13 @@ Install dos2unix which is required to read config file `apt-get install dos2unix
 - [x] Disable pi user password login (only ssh key login)
 - [x] Change pi user password & allow password login
 - [x] Option to run a specific command at each boot
+
+```
+wget https://raw.githubusercontent.com/snip/OGN-receiver-RPI-image/master/dist/OGN-receiver.conf -O /boot/OGN-receiver.conf 
+wget https://raw.githubusercontent.com/snip/OGN-receiver-RPI-image/master/dist/OGN-receiver-config-manager -O /root/OGN-receiver-config-manager 
+chmod +x /root/OGN-receiver-config-manager
+```
+
 ## Manage rtlsdr-ogn auto upgrade
 Download at each rtlsdr-ogn startup.
 
