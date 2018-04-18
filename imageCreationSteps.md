@@ -105,7 +105,7 @@ EOF
 reboot
 ```
 (from: http://wiki.glidernet.org/wiki:prevent-sd-card-corruption)
-## TODO: Cleanup installed image
+## Cleanup installed image
 From: https://github.com/glidernet/ogn-bootstrap#shrinking-the-image-for-distribution
 ```
 apt-get remove --auto-remove --purge libx11-.*
@@ -114,7 +114,9 @@ apt-get autoremove
 apt-get autoclean
 apt-get clean
 rm -rf /var/log/*
-dd if=/dev/zero of=t.1 bs=1M count=8
-dd if=/dev/zero of=t.2 bs=1M ; sudo rm t.1 t.2
+dd if=/dev/zero of=file-filling-disk-with-0 bs=1M ; sudo rm file-filling-disk-with-0
 ```
+
+Remove history.
+
 ## TODO: Read SD image to file & shrink it
