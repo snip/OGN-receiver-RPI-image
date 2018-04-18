@@ -137,4 +137,9 @@ rm file-filling-disk-with-0
 
 Optional: Remove history.
 
-## TODO: Read SD image to file & shrink it
+## Read SD image to file & shrink it & compress it
+Read image from another Linux, then:
+```
+shrink-ogn-rpi 2018-03-13-raspbian-stretch-lite-ognro.img
+zip -9 2018-03-13-raspbian-stretch-lite-ognro.zip 2018-03-13-raspbian-stretch-lite-ognro.img
+```
