@@ -118,23 +118,25 @@ echo "Read-only file system (overlay) status:"
 echo "To manage it (as root): overlayctl disable | overlayctl enable | overlayctl status"
 echo "----------------------"
 EOF
-reboot
 ```
 (from: http://wiki.glidernet.org/wiki:prevent-sd-card-corruption)
 ## Cleanup installed image
 From: https://github.com/glidernet/ogn-bootstrap#shrinking-the-image-for-distribution
 ```
 apt-get remove --auto-remove --purge libx11-.*
-apt-get remove deborphan
 apt-get autoremove
 apt-get autoclean
 apt-get clean
-rm -rf /var/log/*
+```
+
+Optional: fill not used space with 0 (allow beter compression). This can be done at next step by mountinng loopback FS.
+```
 dd if=/dev/zero of=file-filling-disk-with-0 bs=1M
 rm file-filling-disk-with-0
 ```
-
 Optional: Remove history.
+
+## Reboot
 
 ## Read SD image to file & shrink it & compress it
 Read image from another Linux, then:
