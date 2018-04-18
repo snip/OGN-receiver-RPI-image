@@ -42,15 +42,13 @@ Install dos2unix which is required to read config file `apt-get install dos2unix
 - [x] Disable pi user password login (only ssh key login)
 - [x] Change pi user password & allow password login
 - [x] Option to run a specific command at each boot
+- [x] Manage rtlsdr-ogn auto upgrade => Download at each rtlsdr-ogn startup.
 
 ```
 wget https://raw.githubusercontent.com/snip/OGN-receiver-RPI-image/master/dist/OGN-receiver.conf -O /boot/OGN-receiver.conf 
 wget https://raw.githubusercontent.com/snip/OGN-receiver-RPI-image/master/dist/OGN-receiver-config-manager -O /root/OGN-receiver-config-manager 
 chmod +x /root/OGN-receiver-config-manager
 ```
-
-## Manage rtlsdr-ogn auto upgrade
-Download at each rtlsdr-ogn startup.
 
 ## Manage optional remote admin
 ```
@@ -82,6 +80,7 @@ crontab -l | { cat; echo "0 5 * * * /sbin/reboot"; } | crontab -
 * TODO: how to get local time?
 
 Maybe with https://ipsidekick.com/json or https://ipapi.co/timezone/ ? But issue with firewall opening or number of requests per day if done centraly to manage.
+
 ## Manage firstboot ? => Do we realy need it?
 * To create hosts ssh keys on rw SD card. Then activate RO?
 * In any cases root's ssh keys need to be the same for autossh remote admin.
