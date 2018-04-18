@@ -17,6 +17,12 @@ Update hostname to `ogn-receiver` thanks to `raspi-config`
 apt-get install rtl-sdr libconfig9 libjpeg8 fftw3-dev procserv telnet ntpdate ntp lynx
 ```
 * Apply DVB-T blacklist
+cat >> /etc/modprobe.d/rtl-glidernet-blacklist.conf <<EOF
+blacklist rtl2832
+blacklist r820t
+blacklist rtl2830
+blacklist dvb_usb_rtl28xxu
+EOF
 
 * Install service
 ```
@@ -121,9 +127,10 @@ apt-get autoremove
 apt-get autoclean
 apt-get clean
 rm -rf /var/log/*
-dd if=/dev/zero of=file-filling-disk-with-0 bs=1M ; sudo rm file-filling-disk-with-0
+dd if=/dev/zero of=file-filling-disk-with-0 bs=1M
+rm file-filling-disk-with-0
 ```
 
-Remove history.
+Optional: Remove history.
 
 ## TODO: Read SD image to file & shrink it
