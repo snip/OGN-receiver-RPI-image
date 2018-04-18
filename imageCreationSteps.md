@@ -108,6 +108,7 @@ cd /sbin
 wget https://github.com/ppisa/rpi-utils/raw/master/init-overlay/sbin/init-overlay
 wget https://github.com/ppisa/rpi-utils/raw/master/init-overlay/sbin/overlayctl
 chmod +x init-overlay overlayctl
+mkdir /overlay
 overlayctl install
 cat >> /etc/profile <<EOF
 echo "----------------------"
