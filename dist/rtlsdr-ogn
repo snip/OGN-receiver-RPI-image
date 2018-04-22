@@ -27,8 +27,6 @@ logdir=/var/log/$prog
 shells=/var/run/$prog
 chroot=/mnt/ramdisk
 
-( # Not blocking
-
 if [ -d $chroot ]
 then
   CHROOT="chroot $chroot"
@@ -48,6 +46,7 @@ checkpid () {
 }
 
 launch () {
+( # Not blocking
   if [ "$1" = "-reload" ]
   then
     reload=YES
@@ -117,6 +116,7 @@ launch () {
   done < $conf
   mv $temp $shells
   chmod 0644 $shells
+) & # End of Not blocking
 }
 
 start () {
@@ -252,4 +252,3 @@ case "$CMD" in
   (status)        status $*;;
   (*)             echo "Usage: $0 {start [ports]|stop [ports]|restart [ports]|reload|status [-log] [ports]}" ;;
 esac
-) &
