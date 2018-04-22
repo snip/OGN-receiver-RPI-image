@@ -56,7 +56,7 @@ else
 fi
 
 ### Configure wifi
-if [ -n "$wifiPrassword" ]
+if [ -n "$wifiPassword" ]
 then
   cat >> /etc/wpa_supplicant/wpa_supplicant.conf << EOF
 
