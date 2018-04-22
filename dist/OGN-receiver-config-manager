@@ -13,7 +13,7 @@ Altitude="0"
 GeoidSepar="0"
 
 function checkInternet() {
-  URLTOCHECK=$0
+  URLTOCHECK=$1
   echo "Checking internet connection to $URLTOCHECK."
   while [ 0 ] # Loop forever until we have a working internet connection
   do
@@ -100,7 +100,7 @@ EOWIFI
   fi
   
   ### Self upgrade
-  checkInternet($UPDATE_URI)
+  checkInternet "$UPDATE_URI"
   update_self
   # Should never be reach as exec is used except if it failed
 fi
@@ -111,7 +111,7 @@ fi
 /root/glidernet-autossh
 
 ### Upgrade rtlsdr-ogn binaries
-checkInternet($OGNBINARYURL)
+checkInternet "$OGNBINARYURL"
 echo "Downloading and installing $OGNBINARYURL"
 cd /home/pi
 /usr/bin/wget $OGNBINARYURL --quiet -O - | tar xzvf -
