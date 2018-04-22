@@ -20,7 +20,7 @@ then
 fi
 
 echo "Checking internet connection." >&2
-/usr/bin/wget --spider --quiet "http://autossh.glidernet.org"
+/usr/bin/wget --spider --quiet "http://autossh.glidernet.org/"
 if [ "$?" -ne 0 ]
 then
   echo "Not Connected => Exiting" >&2
@@ -28,10 +28,15 @@ then
 fi
 echo "Connected." >&2
 
-# Get Ethernet MAC adress of interface used for default route as ID
-defaultRouteMac=`cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address`
+# By defualt use Ethernet adress of interface named eth0
+mac=`cat /sys/class/net/eth0/address`
+if [ -z "$mac" ] # But if something is going bad use Ethernet adress of interface managing default route.
+then
+  # Get Ethernet MAC adress of interface used for default route as ID
+  mac=`cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address`
+fi
 
-port=`/usr/bin/wget --quiet "http://autossh.glidernet.org/remoteReceiver?r=$ReceiverName&m=$defaultRouteMac" -O -`
+port=`/usr/bin/wget --quiet "http://autossh.glidernet.org/remoteReceiver/?r=$ReceiverName&m=$mac" -O -`
 if [ "$?" -eq 0 ]
 then
  echo "Ok ${port}" >&2
