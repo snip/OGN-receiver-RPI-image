@@ -2,6 +2,7 @@
 
 UPDATE_SELF=${UPDATE_SELF:-1}
 UPDATE_URI="https://raw.githubusercontent.com/snip/OGN-receiver-RPI-image/master/dist/OGN-receiver-config-manager"
+OGNBINARYURL="http://download.glidernet.org/rpi-gpu/rtlsdr-ogn-bin-RPI-GPU-latest.tgz"
 WORK_PATH="/root"
 
 ### Init some variables to default values
@@ -18,13 +19,13 @@ function update_self() {
 	if ! eval curl -Lfs --output "${_tempFileName}" "${UPDATE_URI}"; then
 		echo " !!! Failed to download autoupdate!"
 		echo " !!! Make sure you have ca-certificates installed and that the time is set correctly"
-		exit 1
+		return 1
 	fi
 
 	OCTAL_MODE=$(stat -c '%a' "$0")
 	if ! chmod ${OCTAL_MODE} "${_tempFileName}" ; then
 		echo " !!! Failed: Error while trying to set mode on ${_tempFileName}"
-		exit 1
+		return 1
 	fi
 
 	cat > "${WORK_PATH}/.updateScript.sh" << EOF
@@ -43,22 +44,23 @@ EOF
 # Need this hack to allow sourcing from a file in dos format
 source /dev/stdin < <(dos2unix < /boot/OGN-receiver.conf)
 
-### Manage pi user
 
-echo "Manage pi user"
-if [ -z "$piUserPassword" ]
-then
-  echo "No password specified for \"pi\" user => Disabling usage of password for user \"pi\" (ssh key authentication is still possible)."
-  passwd -l pi
-else
-  echo "Password specified for \"pi\" user => Changing its password."
-  echo "pi:$piUserPassword" | chpasswd
-fi
+if [[ ${UPDATE_SELF} -ne 0 ]]; then # We already run this before self upgrade, so skeeping
+  ### Manage pi user
+  echo "Manage pi user"
+  if [ -z "$piUserPassword" ]
+  then
+    echo "No password specified for \"pi\" user => Disabling usage of password for user \"pi\" (ssh key authentication is still possible)."
+    passwd -l pi
+  else
+    echo "Password specified for \"pi\" user => Changing its password."
+    echo "pi:$piUserPassword" | chpasswd
+  fi
 
-### Configure wifi
-if [ -n "$wifiPassword" ]
-then
-  cat >> /etc/wpa_supplicant/wpa_supplicant.conf <<EOWIFI
+  ### Configure wifi
+  if [ -n "$wifiPassword" ]
+  then
+    cat >> /etc/wpa_supplicant/wpa_supplicant.conf <<EOWIFI
 
 network={
     ssid="${wifiName}"
@@ -66,24 +68,33 @@ network={
 }
 
 EOWIFI
-  wpa_cli -i wlan0 reconfigure
+    wpa_cli -i wlan0 reconfigure
+  fi
+  URLTOCHECK=$UPDATE_URI
+else
+  URLTOCHECK=$OGNBINARYURL
 fi
 
-### Doing stuff which require internet connectivity ####################################
 
-OGNBINARYURL="http://download.glidernet.org/rpi-gpu/rtlsdr-ogn-bin-RPI-GPU-latest.tgz"
+### Doing stuff which require internet connectivity ####################################
 
 echo "Checking internet connection."
 while [ 0 ] # Loop forever until we have a working internet connection
 do
-  /usr/bin/wget --spider --quiet $OGNBINARYURL
+  /usr/bin/wget --spider --quiet $URLTOCHECK
   if [ "$?" -eq 0 ]
   then
     break
   fi
   sleep 1
+  if [ -n "$wifiPassword" ]
+  then
+    wpa_cli -i wlan0 reconfigure
+    sleep 5
+  fi
   echo "."
 done
+
 echo "Connected."
 
 ### Self upgrade
