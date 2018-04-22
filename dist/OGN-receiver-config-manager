@@ -12,6 +12,22 @@ GSMGain="25"
 Altitude="0"
 GeoidSepar="0"
 
+function checkInternet() {
+  URLTOCHECK=$0
+  echo "Checking internet connection to $URLTOCHECK."
+  while [ 0 ] # Loop forever until we have a working internet connection
+  do
+    /usr/bin/wget --spider --quiet $URLTOCHECK
+    if [ "$?" -eq 0 ]
+    then
+      break
+    fi
+    sleep 1
+    echo "."
+  done
+  echo "Connected."
+}
+
 function update_self() {
 	echo " *** Performing self-update"
 	_tempFileName="$0.tmp"
@@ -68,48 +84,34 @@ network={
 }
 
 EOWIFI
-    wpa_cli -i wlan0 reconfigure
+    ( # Not blocking
+      while [ 0 ] # Loop forever until we have a correct reply from wpa_cli
+      do
+        wpa_cli -i wlan0 reconfigure
+        if [ "$?" -eq 0 ]
+        then
+          break
+	else
+	  sleep 10 # Required to have interface up)
+	fi
+      done
+    ) & # End of Not blocking
+      
   fi
-  URLTOCHECK=$UPDATE_URI
-else
-  URLTOCHECK=$OGNBINARYURL
+  
+  ### Self upgrade
+  checkInternet($UPDATE_URI)
+  update_self
+  # Should never be reach as exec is used except if it failed
 fi
-
 
 ### Doing stuff which require internet connectivity ####################################
-
-echo "Checking internet connection."
-while [ 0 ] # Loop forever until we have a working internet connection
-do
-  /usr/bin/wget --spider --quiet $URLTOCHECK
-  if [ "$?" -eq 0 ]
-  then
-    break
-  fi
-  sleep 1
-  if [ -n "$wifiPassword" ]
-  then
-    wpa_cli -i wlan0 reconfigure
-    sleep 5
-  fi
-  echo "."
-done
-
-echo "Connected."
-
-### Self upgrade
-
-# (All previously done will be run again)
-if [[ ${UPDATE_SELF} -ne 0 ]]; then
-	update_self
-	# Should never be reach as exec is used
-fi
 
 ### Launch remote admin
 /root/glidernet-autossh
 
-### Upgrade rtlsdr-ogn
-
+### Upgrade rtlsdr-ogn binaries
+checkInternet($OGNBINARYURL)
 echo "Downloading and installing $OGNBINARYURL"
 cd /home/pi
 /usr/bin/wget $OGNBINARYURL --quiet -O - | tar xzvf -
