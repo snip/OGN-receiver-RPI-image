@@ -55,6 +55,20 @@ else
   echo "pi:$piUserPassword" | chpasswd
 fi
 
+### Configure wifi
+if [ -n "$wifiPrassword" ]
+then
+  cat >> /etc/wpa_supplicant/wpa_supplicant.conf << EOF
+
+network={
+    ssid="${wifiName}"
+    psk="${wifiPassword}"
+}
+
+EOF
+  wpa_cli -i wlan0 reconfigure
+fi
+
 ### Doing stuff which require internet connectivity ####################################
 
 OGNBINARYURL="http://download.glidernet.org/rpi-gpu/rtlsdr-ogn-bin-RPI-GPU-latest.tgz"
