@@ -11,6 +11,7 @@ GSMCenterFreq="950"
 GSMGain="25"
 Altitude="0"
 GeoidSepar="0"
+wifiCountry="FR"
 
 function checkInternet() {
   URLTOCHECK=$1
@@ -78,6 +79,7 @@ if [[ ${UPDATE_SELF} -ne 0 ]]; then # We already run this before self upgrade, s
   then
     cat >> /etc/wpa_supplicant/wpa_supplicant.conf <<EOWIFI
 
+country=${wifiCountry}
 network={
     ssid="${wifiName}"
     psk="${wifiPassword}"
