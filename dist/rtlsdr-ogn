@@ -57,9 +57,10 @@ launch () {
   # OGN autoconfig
   /root/OGN-receiver-config-manager
 
-  # Wait for time to be sync before launching
-  #while true; do /usr/sbin/ntp-wait -v;  if [ $? -eq 0 ]; then break; fi; sleep 2; done
-  while true; do service ntp stop; sleep 1; service ntp start; /usr/sbin/ntp-wait -v -n 5;  if [ $? -eq 0 ]; then break; fi; sleep 2; done
+  # Simple time clock sync to be compatible also with internet links with lot of jitter
+  service ntp stop
+  ntpdate pool.ntp.org
+  service ntp start  
 
   while read PORT USER DIR COMMAND
   do
