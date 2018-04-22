@@ -58,14 +58,14 @@ fi
 ### Configure wifi
 if [ -n "$wifiPassword" ]
 then
-  cat >> /etc/wpa_supplicant/wpa_supplicant.conf << EOF
+  cat >> /etc/wpa_supplicant/wpa_supplicant.conf <<EOWIFI
 
 network={
     ssid="${wifiName}"
     psk="${wifiPassword}"
 }
 
-EOF
+EOWIFI
   wpa_cli -i wlan0 reconfigure
 fi
 
