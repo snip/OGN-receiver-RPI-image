@@ -6,7 +6,7 @@ OGNBINARYURL="http://download.glidernet.org/rpi-gpu/rtlsdr-ogn-bin-RPI-GPU-lates
 WORK_PATH="/root"
 
 ### Init some variables to default values
-FreqCorr="60"
+defaultFreqCorr="60"
 GSMCenterFreq="950"
 GSMGain="25"
 Altitude="0"
@@ -127,6 +127,24 @@ chmod a+s  ogn-rf
 if [ -n "$runAtBoot" ]
 then
   $runAtBoot
+fi
+
+
+### Try to mesure PPM correction
+
+if [ -n "$FreqCorr" ]
+then
+  echo "Using configured PPM correction: $FreqCorr"
+else
+  tmpFreqCorr=`/home/pi/rtlsdr-ogn/gsm_scan 2>/dev/null | grep "Receiver Xtal correction" | awk '{print $7}' | sed -r 's/^.([0-9]+)\..*/\1/'`
+  if [ -n "$tmpFreqCorr" ]
+  then
+    FreqCorr=$tmpFreqCorr
+    echo "Using detected PPM correction: $FreqCorr"
+  else
+    FreqCorr=$defaultFreqCorr
+    echo "Using default PPM correction: $FreqCorr"
+  fi
 fi
 
 ### Generate OGN receiver config file
