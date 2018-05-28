@@ -109,7 +109,7 @@ As we are going to be RO file system we will not rely on `/etc/fake-hwclock.data
 
 ## Force time sync every 10 minutes?
 ```
-*/10 * * * * ( /usr/sbin/service ntp stop && /usr/sbin/ntpdate pool.ntp.org && /usr/sbin/service ntp start ) > /tmp/ntp-sync.log 2>&1
+*/10 * * * * ( /usr/sbin/ntpdate -u pool.ntp.org ) > /tmp/ntp-sync.log 2>&1
 ```
 
 ## Add RO FS
