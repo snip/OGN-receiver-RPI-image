@@ -3,6 +3,7 @@
 UPDATE_SELF=${UPDATE_SELF:-1}
 UPDATE_URI="https://raw.githubusercontent.com/snip/OGN-receiver-RPI-image/master/dist/OGN-receiver-config-manager"
 OGNBINARYURL="http://download.glidernet.org/rpi-gpu/rtlsdr-ogn-bin-RPI-GPU-latest.tgz"
+GEOIDSEPARURL="http://download.glidernet.org/common/WW15MGH.DAC"
 WORK_PATH="/root"
 
 ### Init some variables to default values
@@ -10,7 +11,6 @@ defaultFreqCorr="60"
 GSMCenterFreq="950"
 GSMGain="25"
 Altitude="0"
-GeoidSepar="0"
 wifiCountry="FR"
 
 function checkInternet() {
@@ -123,15 +123,22 @@ chmod a+s  gsm_scan
 chown root ogn-rf
 chmod a+s  ogn-rf
 
+### Manage GeoidSepar file
+if [ ! -f /boot/WW15MGH.DAC ] || [ ! -s /boot/WW15MGH.DAC ]
+then
+  echo "GeoidSepar file need to be retrived from $GEOIDSEPARURL to /boot."
+  /usr/bin/wget $GEOIDSEPARURL --quiet -O /boot/WW15MGH.DAC
+fi
+echo "Copy GeoidSepar file from /boot to rtlsdr-ogn working dir."
+cp /boot/WW15MGH.DAC .
+
 ### Run a specific command
 if [ -n "$runAtBoot" ]
 then
   $runAtBoot
 fi
 
-
 ### Try to mesure PPM correction
-
 if [ -n "$FreqCorr" ]
 then
   echo "Using configured PPM correction: $FreqCorr"
@@ -189,7 +196,6 @@ Position:
 { Latitude   =   $Latitude; # [deg] Antenna coordinates
   Longitude  =   $Longitude; # [deg]
   Altitude   =        $Altitude; # [m]   Altitude above sea leavel
-  GeoidSepar =        $GeoidSepar; # [m]   Geoid separation: FLARM transmits GPS altitude, APRS uses means Sea level altitude
 } ;
 
 APRS:
