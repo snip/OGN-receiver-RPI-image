@@ -6,4 +6,5 @@ But this can also be used by others.
 
 Latest usable image is available here: http://download.glidernet.org/seb-ogn-rpi-image
 
-French manual: http://ognproject.wdfiles.com/local--files/downloads/Installation%20du%20logiciel%20OGN%20%28image%200_2%29%20sur%20un%20raspberry.pdf
+French manual: https://bit.ly/2R3CtQe
+English manual: https://bit.ly/2R1cfh9
