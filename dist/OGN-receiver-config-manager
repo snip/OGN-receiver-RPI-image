@@ -84,6 +84,7 @@ if [[ ${UPDATE_SELF} -ne 0 ]]; then # We already run this before self upgrade, s
   ### Configure wifi
   if [ -n "$wifiPassword" ]
   then
+    /usr/sbin/rfkill unblock wifi
     cat >> /etc/wpa_supplicant/wpa_supplicant.conf <<EOWIFI
 
 country=${wifiCountry}
