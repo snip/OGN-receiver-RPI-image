@@ -131,6 +131,13 @@ chmod a+s  gsm_scan
 chown root ogn-rf
 chmod a+s  ogn-rf
 
+### Awful hack to fix missing libjpeg in recent repo
+if [ ! -f /usr/lib/arm-linux-gnueabihf/libjpeg.so.8 ]
+  then
+    echo "Retriving missing libjpeg.so.8"
+    /usr/bin/wget http://download.glidernet.org/utils/arm/libjpeg.so.8 --quiet -O /usr/lib/arm-linux-gnueabihf/libjpeg.so.8
+fi
+
 ### Manage GeoidSepar file
 if [ ! -f /boot/WW15MGH.DAC ] || [ ! -s /boot/WW15MGH.DAC ]
 then
