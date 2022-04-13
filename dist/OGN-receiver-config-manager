@@ -147,6 +147,26 @@ fi
 echo "Copy GeoidSepar file from /boot to rtlsdr-ogn working dir."
 cp /boot/WW15MGH.DAC .
 
+### Manage bias tee
+if [ -n "$enableBias" ]
+then
+  if [ ! -f /boot/rtl_biast ]
+  then
+    echo "Retriving bias tee binaries"
+    /usr/bin/wget http://download.glidernet.org/utils/arm/rtl_biast.tar.gz --quiet -O - | tar xzvf - --directory /boot/
+  fi
+  if [ "$enableBias" == "1" ]
+  then
+    echo "Enabling bias tee"
+    export LD_LIBRARY_PATH=/boot/:$LD_LIBRARY_PATH
+    /boot/rtl_biast -b 1
+  else
+    echo "Disabling bias tee"
+    export LD_LIBRARY_PATH=/boot/:$LD_LIBRARY_PATH
+    /boot/rtl_biast -b 0
+  fi
+fi
+
 ### Run a specific command
 if [ -n "$runAtBoot" ]
 then
