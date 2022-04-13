@@ -2,7 +2,14 @@
 
 UPDATE_SELF=${UPDATE_SELF:-1}
 UPDATE_URI="https://raw.githubusercontent.com/snip/OGN-receiver-RPI-image/master/dist/OGN-receiver-config-manager"
-OGNBINARYURL="http://download.glidernet.org/rpi-gpu/rtlsdr-ogn-bin-RPI-GPU-latest.tgz"
+if [ "`grep Hardware /proc/cpuinfo | awk '{ print $3 }'`" == "BCM2711" ]
+  then
+    echo "RPi4/CM4 detected => Will use OGN ARM version"
+    OGNBINARYURL="http://download.glidernet.org/arm/rtlsdr-ogn-bin-ARM-latest.tgz"
+  else
+    echo "Will use OGN GPU version"
+    OGNBINARYURL="http://download.glidernet.org/rpi-gpu/rtlsdr-ogn-bin-RPI-GPU-latest.tgz"
+fi
 GEOIDSEPARURL="http://download.glidernet.org/common/WW15MGH.DAC"
 WORK_PATH="/root"
 
