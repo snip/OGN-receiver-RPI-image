@@ -13,7 +13,6 @@ Upgrade system:
 ```
 apt-get update
 apt-get dist-upgrade
-rpi-update
 ```
 Update hostname to `ogn-receiver` thanks to `raspi-config`
 ## Install standard OGN lib & softs + standard config
