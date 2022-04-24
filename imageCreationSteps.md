@@ -4,6 +4,10 @@ Get lite version of raspbian from: https://www.raspberrypi.org/downloads/raspbia
 ## Enable ssh login
 Put a file named ssh in /boot
 (https://www.raspberrypi.org/documentation/remote-access/ssh/)
+## Add user pi and set its password
+This is now required since Bullseye.
+This can be done in Raspberry Pi Imager at image writing time or following info described here:
+https://www.raspberrypi.com/news/raspberry-pi-bullseye-update-april-2022/
 ## Boot RPi with this SD card
 Upgrade system:
 ```
