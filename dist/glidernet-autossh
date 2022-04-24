@@ -36,7 +36,15 @@ then
   mac=`cat /sys/class/net/$(ip route show default | awk '/default/ {print $5}')/address`
 fi
 
-port=`/usr/bin/wget --quiet "http://autossh.glidernet.org/remoteReceiver/?r=$ReceiverName&m=$mac" -O -`
+# 
+if [ -f "/root/image-version" ]
+then
+  imageVersion=`cat /root/image-version`
+else
+  imageVersion="unknown"
+fi
+
+port=`/usr/bin/wget --quiet "http://autossh.glidernet.org/remoteReceiver/?r=$ReceiverName&m=$mac&i=$imageVersion" -O -`
 if [ "$?" -eq 0 ]
 then
  echo "Ok ${port}" >&2

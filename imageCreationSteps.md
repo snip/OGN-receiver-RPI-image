@@ -70,6 +70,12 @@ wget "http://autossh.glidernet.org/~glidernet-adm/id_rsa.pub" -O .ssh/authorized
   - [x] Do not start glidernet-autossh by systemd but via crontab every 10min
   - [x] In the startup of glidernet-autossh do http request to get port & if we need to use this feature
 
+## Indicate image version
+as root :
+```
+echo "TOBERELACEDBYIMAGEVERSION" > /root/image-version
+```
+
 ## Manage self-update
 Example taken from: https://github.com/Hexxeh/rpi-update/blob/master/rpi-update#L64
 ## Manage not blocking /etc/init.d/rtlsdr-ogn
