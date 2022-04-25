@@ -15,6 +15,10 @@ apt-get update
 apt-get dist-upgrade
 ```
 Update hostname to `ogn-receiver` thanks to `raspi-config`
+Disable autologin thanks to `raspi-config` or:
+```
+rm /etc/systemd/system/getty@tty1.service.d/autologin.conf
+```
 ## Install standard OGN lib & softs + standard config
 ```
 apt-get update
