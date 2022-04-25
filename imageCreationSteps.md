@@ -120,10 +120,17 @@ update-rc.d fake-hwclock disable
 ```
 As we are going to be RO file system we will not rely on `/etc/fake-hwclock.data`.
 
-## Force time sync every 10 minutes?
+## Force time sync every 10 minutes
 ```
 */10 * * * * ( /usr/sbin/ntpdate -u pool.ntp.org ) > /tmp/ntp-sync.log 2>&1
 ```
+## Allow usage of GPU for model before Pi4/CM4
+Comment following line in `/boot/config.txt`
+```
+dtoverlay=vc4-kms-v3d
+```
+Without this `gsm_scan` and `ogn-rf` in there GPU version will crash with error like:
+`The process was killed by signal 8`or `Floating point exception` due to impossibility to use GPU.
 
 ## Add RO FS
 ```
