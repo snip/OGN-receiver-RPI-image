@@ -1,46 +1,102 @@
 #!/bin/bash
-# Automatic Image file resizer
-# Written by SirLagz and updated by Sebastien Chaumontet
-strImgFile=$1
 
+########################## Users settings, adapt to your needs
 
-if [[ ! $(whoami) =~ "root" ]]; then
-echo ""
-echo "**********************************"
-echo "*** This should be run as root ***"
-echo "**********************************"
-echo ""
-exit
+DEV="/dev/sdb"			# Sdcard device
+VFAT_TRAILING_SIZE=200		# in MiB
+EXT_TRAILING_SIZE=50		# in MiB.
+INRAM="N"			# work on TMPFS, more efficient. Need TMPFS_SIZE of free memory. use "Y/N".
+TMPFS_SIZE="3g"			# Amount of Ram used in tmpfs. Used only when INRAM="Y"
+CLEAN="Y"			# clean every temporary files and unmount working fs. use "Y/N"
+
+########################## Script start, do not modified
+
+errors=()
+[[ $(whoami) =~ "root" ]] || errors+=("script must be run as root")
+which parted >/dev/null || errors+=("parted is not installed")
+which fallocate >/dev/null || errors+=("fallocate is not installed")
+[[ -b $DEV ]] || errors+=("sdcard not found")
+if [[ -b $DEV ]] ; then
+	part1=$(lsblk $DEV"1" -o FSTYPE | tail -n1)
+	part2=$(lsblk $DEV"2" -o FSTYPE | tail -n1)
+	[[ $part1 == "vfat" ]] && [[ $part2 == "ext4" ]] || errors+=($DEV": sdcard wrong parts") 
 fi
 
-if [[ -z $1 ]]; then
-echo "Usage: ./autosizer.sh "
-exit
+if [[ !${#errors[@]} -eq 0 ]]; then
+	echo 
+	echo "#########ERRORS FOUND#########"
+	for error in "${errors[@]}"; do
+		echo "#-> "$error	
+	done
+	echo
+	exit 1
 fi
 
-if [[ ! -e $1 || ! $(file $1) =~ "x86" ]]; then
-echo "Error : Not an image file, or file doesn't exist"
-exit
+SCRIPT=`realpath $0`
+SCRIPTPATH=`dirname $SCRIPT`
+cd $SCRIPTPATH
+
+mkdir -p ./tmpfsd ./sdcard/boot ./sdcard/rfs
+if [[ "$INRAM" == "Y" ]] ; then
+	grep -qs 'tmpfsd ' /proc/mounts || $(mount -t tmpfs -o size=$TMPFS_SIZE tmpfs ./tmpfsd)
 fi
+mkdir -p ./tmpfsd/boot ./tmpfsd/rfs
 
-partinfo=`parted -m $1 unit B print`
-partnumber=`echo "$partinfo" | grep ext4 | awk -F: ' { print $1 } '`
-#partstart=`echo "$partinfo" | grep ext4 | awk -F: ' { print substr($2,0,length($2)-1) } '`
-partstart=`echo "$partinfo" | grep ext4 | awk -F: ' { print substr($2,0,length($2)) } '`
-loopback=`losetup -f --show -o $partstart $1`
-e2fsck -f $loopback
-minsize=`resize2fs -P $loopback | awk -F': ' ' { print $2 } '`
-#echo "partstart=$partstart minsize=$minsize"
-minsize=`echo $minsize+12000 | bc` # Add about 50MB free space (blocksize of 4096 Bytes)
-#echo "partstart=$partstart minsize=$minsize"
-resize2fs -f -p $loopback $minsize
-sleep 1
-losetup -d $loopback
-partnewsize=`echo "$minsize * 4096" | bc`
-newpartend=`echo "$partstart + $partnewsize" | bc`
-part1=`parted $1 rm 2`
-part2=`parted $1 unit B mkpart primary $partstart $newpartend`
-#endresult=`parted -m $1 unit B print free | tail -1 | awk -F: ' { print substr($2,0,length($2)-1) } '`
-endresult=`parted -m $1 unit B print free | tail -1 | awk -F: ' { print substr($2,0,length($2)) } '`
-truncate -s $endresult $1
+echo "#1: mounting "$DEV" file systems"
+grep -qs 'sdcard/boot ' /proc/mounts || $(mount -t vfat -o ro $DEV"1" ./sdcard/boot) || exit 1
+grep -qs 'sdcard/rfs ' /proc/mounts || $(mount -t ext4 -o ro $DEV"2" ./sdcard/rfs)   || exit 1
 
+echo "#2: calculate partitions size"
+vfat_b=$(du -sb ./sdcard/boot | cut -f1)
+vfat_bt=$((vfat_b+(VFAT_TRAILING_SIZE+3)*1024**2))	
+# using one megabyte boundaries for alignment
+vfat_fstart=4194304
+vfat_btm=$((vfat_bt%1048576))	
+vfat_fsend=$((vfat_fstart+vfat_bt+1048576-vfat_btm-1))
+
+ext_b=$(du -sb ./sdcard/rfs | cut -f1)
+ext_bt=$((ext_b+(EXT_TRAILING_SIZE+136)*1024**2))
+ext_inode=$((ext_bt/16384))*256	# by default one inode for 16384 Bytes (16 ko)
+ext_reserve=$((1024*4096))	# 1024 blocks reserved (will be fix with tune2fs)
+ext_btt=$((ext_bt+ext_inode+ext_reserve))
+ext_bttm=$((ext_btt%1048576))	# use one megabyte boundaries for alignment
+ext_fstart=$((vfat_fsend+1))
+ext_fsend=$((ext_fstart+ext_btt+1048576-ext_bttm-1))
+img_size=$((ext_fsend+1))
+
+echo "#3: create & partitioning img"
+rm -f ./tmpfsd/img
+fallocate -l $img_size ./tmpfsd/img || exit 1
+loopd="$(losetup -f --show ./tmpfsd/img)"
+parted --script $loopd unit B mklabel msdos \
+	mkpart primary fat32 $vfat_fstart $vfat_fsend \
+	mkpart primary ext4 $ext_fstart $ext_fsend
+
+echo "#4: create file system"
+mkfs.vfat -F 32 $loopd"p1" >/dev/null 2>&1
+fatlabel $loopd"p2" boot > /dev/null 2>&1
+mkfs.ext4 -q $loopd"p2"
+tune2fs -L rfs -f -r 1024 $loopd"p2" >/dev/null 2>&1   # reserved 1024 blocks
+
+echo "#5: poupulate file system"
+mount $loopd"p1" ./tmpfsd/boot
+mount $loopd"p2" ./tmpfsd/rfs
+cp -a ./sdcard/boot/. ./tmpfsd/boot/
+cp -a ./sdcard/rfs/. ./tmpfsd/rfs/
+
+echo "#6: patching PARTUUID"
+PARTUUID=$(blkid -o value $loopd | head -n1)
+sed -i "s/PARTUUID=.*-0/PARTUUID=$PARTUUID-0/" ./tmpfsd/boot/cmdline.txt
+sed -i "s/PARTUUID=.*-0/PARTUUID=$PARTUUID-0/" ./tmpfsd/rfs/etc/fstab
+
+if [[ "$CLEAN" == "Y" ]]; then
+	echo "#7: cleaning"
+	umount ./tmpfsd/boot
+	umount ./tmpfsd/rfs
+	losetup -d $loopd 
+	rm -rf ./tmpfsd/boot ./tmpfsd/rfs
+	umount ./sdcard/boot
+	umount ./sdcard/rfs
+	rm -rf sdcard
+fi
+echo "#END: image in "$SCRIPTPATH"/tmpfsd/img"
