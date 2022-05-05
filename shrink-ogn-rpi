@@ -74,7 +74,7 @@ parted --script $loopd unit B mklabel msdos \
 
 echo "#4: create file system"
 mkfs.vfat -F 32 $loopd"p1" >/dev/null 2>&1
-fatlabel $loopd"p2" boot > /dev/null 2>&1
+fatlabel $loopd"p1" boot > /dev/null 2>&1
 mkfs.ext4 -q $loopd"p2"
 tune2fs -L rfs -f -r 1024 $loopd"p2" >/dev/null 2>&1   # reserved 1024 blocks
 
