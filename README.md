@@ -1,7 +1,7 @@
 # OGN-receiver-RPI-image
 Process to create a Raspberry Pi SD image for OGN receiver
 
-Main target is to provide an fast, reliable and easy way to install OGN receivers.
+Main target is to provide a fast, reliable and easy way to install OGN receivers.
 
 Latest usable image is available here: http://download.glidernet.org/seb-ogn-rpi-image
 
