@@ -201,7 +201,7 @@ echo "Managing configuration for receiver \"$ReceiverName\".";
 
 if [ -f /boot/rtlsdr-ogn.conf ]
 then
-  echo "/boot/rtlsdr-ogn.conf exit => Using it for rtlsdr-ogn parameters (ignoring other reciver parameters)."
+  echo "/boot/rtlsdr-ogn.conf exist => Using it for rtlsdr-ogn parameters (ignoring other reciver parameters)."
   cp /boot/rtlsdr-ogn.conf /home/pi/rtlsdr-ogn.conf
 else
   if [ -z "$Latitude" ]
