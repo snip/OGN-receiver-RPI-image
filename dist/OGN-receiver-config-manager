@@ -19,6 +19,7 @@ GSMCenterFreq="950"
 GSMGain="25"
 Altitude="0"
 wifiCountry="FR"
+AdsbMaxReceiveAltitude="25000"
 
 function checkInternet() {
   URLTOCHECK=$1
@@ -240,5 +241,17 @@ APRS:
 
 EOCONFFILE
 
-fi
+  # Add ADS-B configuration only when an AVR source is configured
+  if [ -n "$AdsbAvrSource" ]
+  then
+    cat >>/home/pi/rtlsdr-ogn.conf <<EOCONFFILE
 
+ADSB: 
+{
+  AVR = "$AdsbAvrSource"; # AVR source (e.g. localhost:30002) for receiving ADS-B aircraft data
+  MaxAlt = $AdsbMaxReceiveAltitude; # [ft] maximum altitude of received ADS-B aircraft (default: 25000ft)
+} ;
+EOCONFFILE
+  fi
+
+fi
